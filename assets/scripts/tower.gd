@@ -72,6 +72,8 @@ func _physics_process(delta):
 		if $TimeSkipUi/TimeSkipBar.value >= 100:
 			global.currentGame.skipTime()
 			$TimeSkipUi.hide()
+			$TimeSkipUi.mouse_filter = 2
+			$TimeSkipArea.set_deferred("monitoring", false)
 			$TimeSkipUi/TimeSkipBar.value = 0
 		
 		if Input.is_action_pressed("click"):
@@ -85,6 +87,20 @@ func _on_time_skip_area_area_entered(area):
 		$TimeSkipUi.show()
 
 func _on_time_skip_area_area_exited(area):
+	#ugly
 	if !skippingTime:
 		$TimeSkipUi.hide()
 		$TimeSkipUi/TimeSkipBar.value = 0
+
+func takeDamage(x):
+	global.health -= x
+	
+func updateHealth():
+	$HpBar.value = global.health
+
+func showHealthBar():
+	$HpBar.show()
+	$HpBar/HpBarTimer.start()
+	
+func _on_hp_bar_timer_timeout():
+	$HpBar.hide()

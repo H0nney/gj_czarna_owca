@@ -36,10 +36,23 @@ func _startGame():
 	if !started:
 		started = true
 		await global.runTransition(true)
+		global.health = 10
 		menu.queue_free()
 		var newGame = global.GAME.instantiate()
 		global.currentGame = newGame
 		self.add_child(newGame)
+		
+func _progressLevel(day):
+	await global.runTransition(true)
+	global.currentGame.queue_free()
+	global.currentGame = null
+	
+	var newGame = global.GAME.instantiate()
+	newGame.currentDay = day
+	global.currentGame = newGame
+	self.add_child(newGame)
+		
+	
 		
 func distortion(param):
 	$Shaders/SkipUi.visible = param

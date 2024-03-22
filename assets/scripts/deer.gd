@@ -11,6 +11,8 @@ var speed:int = 50
 @onready var state_dead = $StateMachine/State_Dead
 @onready var state_wander = $StateMachine/State_Wander
 @onready var state_eat = $StateMachine/State_Eat
+@onready var state_attack = $StateMachine/State_Attack
+@onready var state_pushback = $StateMachine/State_Pushback
 
 #UTILITY
 @onready var blood_particles = $BloodParticles
@@ -69,6 +71,9 @@ func _setInfection(x):
 						var newSprite2 = Sprite2D.new()
 						newSprite.texture = infectionDict[i].pick_random()
 						main_sprite.add_child(newSprite2)
+				else:
+					if i == "head":
+						pickedHead = head_sprite.sprite_frames
 					
 		showInfection(false)
 
@@ -87,6 +92,8 @@ func _ready():
 	rng.randomize()
 	if rng.randf() <= 0.2:
 		infection = true
+		
+	state_pushback.state_finished.connect(func(): stateMachine._setState(state_attack))
 	
 func showInfection(param):
 	for sprite in main_sprite.get_children():
@@ -100,3 +107,22 @@ func showInfection(param):
 
 func appear():
 	$AnimationPlayer.play("appear")
+	
+@onready var infectionArea = $InfectionArea
+func triggerInfection(spread):
+	if spread:
+		var nearActors = infectionArea.get_overlapping_areas()
+		if nearActors.size():
+			for hitBox in nearActors:
+				if rng.randf() <= 0.4:
+					hitBox.get_owner().triggerInfection(false)
+	
+	$BehaviorTimer.stop()
+	stateMachine._setState(state_attack)
+
+func _on_hit_box_area_entered(area):
+	var areaOwner = area.get_owner()
+	if areaOwner == global.tower:
+		areaOwner.takeDamage(1)
+		stateMachine._setState(state_pushback)
+		

@@ -39,6 +39,7 @@ vertical_alignment = 1
 [node name="Cta" type="Label" parent="TextVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "PRESS LMB TO PROGRESS"
+text = "[PRESS LMB]
+Begin"
 horizontal_alignment = 1
 vertical_alignment = 1

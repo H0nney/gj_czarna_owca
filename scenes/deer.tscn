@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d2grct465h5vg"]
+[gd_scene load_steps=34 format=3 uid="uid://d2grct465h5vg"]
 
 [ext_resource type="Script" path="res://assets/scripts/deer.gd" id="1_dmsfe"]
 [ext_resource type="Texture2D" uid="uid://dh6rc3oufqr7a" path="res://assets/gfx/eating_grass.png" id="2_fw4s6"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" path="res://assets/scripts/classes/state/state_dead.gd" id="5_s73bd"]
 [ext_resource type="Script" path="res://assets/scripts/classes/state/state_wander.gd" id="6_wjb60"]
 [ext_resource type="Script" path="res://assets/scripts/classes/state/state_eat.gd" id="8_btra8"]
+[ext_resource type="Script" path="res://assets/scripts/classes/state/state_attack.gd" id="9_ca8ft"]
 [ext_resource type="Texture2D" uid="uid://bxroiqp145tr0" path="res://assets/gfx/bodies.png" id="9_fopbx"]
+[ext_resource type="Script" path="res://assets/scripts/classes/state/state_pushback.gd" id="10_ndokc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kq0bc"]
 size = Vector2(18, 6)
@@ -174,6 +176,9 @@ _data = {
 "appear": SubResource("Animation_fg7is")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xs716"]
+radius = 48.0
+
 [node name="Deer" type="CharacterBody2D"]
 motion_mode = 1
 platform_floor_layers = 4294901760
@@ -198,7 +203,7 @@ autoplay = "idle"
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(0, -7.5)
@@ -233,6 +238,17 @@ actor = NodePath("../..")
 animator = NodePath("../../MainSprite")
 headSprite = NodePath("../../MainSprite/HeadSprite")
 
+[node name="State_Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator", "headSprite", "navigationAgent")]
+script = ExtResource("9_ca8ft")
+actor = NodePath("../..")
+animator = NodePath("../../MainSprite")
+headSprite = NodePath("../../MainSprite/HeadSprite")
+navigationAgent = NodePath("../../NavigationAgent")
+
+[node name="State_Pushback" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("10_ndokc")
+actor = NodePath("../..")
+
 [node name="BehaviorTimer" type="Timer" parent="."]
 wait_time = 8.0
 autostart = true
@@ -264,4 +280,15 @@ libraries = {
 "": SubResource("AnimationLibrary_v6wje")
 }
 
+[node name="InfectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InfectionArea"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_xs716")
+
+[node name="NavigationAgent" type="NavigationAgent2D" parent="."]
+
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]

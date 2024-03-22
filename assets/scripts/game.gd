@@ -25,21 +25,24 @@ func set_start_time():
 	start_time = Time.get_ticks_msec()
 
 func time_convert(time_in_sec):
-	var seconds = time_in_sec%60
-	var minutes = (time_in_sec/60)%60
-	
-	#returns a string with the format "HH:MM:SS"
-	if time_in_sec > 180:
-		return "Time's up"
-	else:
-		return "%02d:%02d" % [minutes, seconds]
+	if !state == GAMESTATE.DEFENSE:
+		var seconds = time_in_sec%60
+		var minutes = (time_in_sec/60)%60
+		
+		#returns a string with the format "HH:MM:SS"
+		if time_in_sec > 180:
+			state = GAMESTATE.DEFENSE
+			return "Oh no..."
+		else:
+			return "%02d:%02d" % [minutes, seconds]
 
 func elapsed_time():
 	return Time.get_ticks_msec() - start_time 
 	
 func _physics_process(_delta):
-	if start_time:
+	if start_time && state == GAMESTATE.HUNT:
 		$HuntUi/HuntUiContainer/Time/PanelContainer/MarginContainer/HBoxContainer/TimeLabel.text = time_convert(elapsed_time() / 1000) 
+		
 	
 const spawnArea = Vector2(490, 340)
 func rollDirection() -> Vector2:
@@ -78,7 +81,13 @@ func _setGameState(newState):
 			currentIntermission = INTERMISSION.instantiate()
 			var textVbox = currentIntermission.get_node_or_null("TextVBox")
 			if textVbox:
-				var currentLocale = locale.localeMap[currentDay]
+				var currentLocale 
+				if !locale.localeMap.has(currentDay):
+					currentLocale = locale.localeMap[99]
+				else:
+					currentLocale = locale.localeMap[currentDay]
+				
+					
 				textVbox.get_node("Title").text = currentLocale.title
 				textVbox.get_node("Text").text = currentLocale.text
 				textVbox.get_node("Cta").text = currentLocale.cta
@@ -104,9 +113,11 @@ func _setGameState(newState):
 				await global.runTransition(false)
 			
 		GAMESTATE.DEFENSE:
-			print('DEFENSE')
+			triggerInfections()
+			
 		GAMESTATE.END:
 			print('END')
+			
 		GAMESTATE.ALLDEAD:
 			if !global.transitionRunning:
 				await global.runTransition(true)
@@ -138,8 +149,7 @@ func _unhandled_input(event):
 					
 					GAMESTATE.ALLDEAD:
 						if currentAllDead:
-							await global.runTransition(true)
-							global.root._initMenu()
+							global.root._progressLevel(currentDay+1)
 
 func _ready():
 	global.currentGame = self
@@ -150,10 +160,27 @@ func toggleBinoculars():
 	
 func _setDeerCount(x):
 	deerCount = x
-	#dobra chuj z tym
+	#dobra chuj z tym lecymy po koniec
 	$HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/AliveLabel.text = str(deerCount)
 	if deerCount <= 0:
 		state = GAMESTATE.ALLDEAD
 
 func skipTime():
 	global.root.distortion(true)
+	start_time -= 180000
+	
+func triggerInfections():
+	await get_tree().create_timer(2).timeout
+	var infected = get_tree().get_nodes_in_group("infected")
+	var aliveInfected = []
+	for i in infected:
+		if i.alive:
+			aliveInfected.append(i)
+			
+	if aliveInfected.size():
+		for deer in aliveInfected:
+			deer.triggerInfection(true)
+	else:
+		global.root._progressLevel(currentDay+1)
+
+	global.root.distortion(false)

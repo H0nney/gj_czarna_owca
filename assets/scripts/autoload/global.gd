@@ -2,6 +2,13 @@ extends Node
 
 #Player node
 var tower:StaticBody2D = null
+var health:int = 10 : set = _setHealth
+
+func _setHealth(x):
+	health = x
+	if is_instance_valid(tower):
+		tower.updateHealth()
+		tower.showHealthBar()
 
 #UTILITY
 var root:Node2D = null
