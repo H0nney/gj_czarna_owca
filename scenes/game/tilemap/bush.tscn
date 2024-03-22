@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmih8gsl4h45l"]
+
+[ext_resource type="Texture2D" uid="uid://clogngpwsqitc" path="res://assets/gfx/nature/Bushes.png" id="1_44ubj"]
+[ext_resource type="Script" path="res://assets/scripts/details/bush.gd" id="2_odlpf"]
+
+[node name="Bush" type="Sprite2D"]
+position = Vector2(0, -9)
+texture = ExtResource("1_44ubj")
+region_enabled = true
+region_rect = Rect2(20, 0, 20, 23)
+script = ExtResource("2_odlpf")

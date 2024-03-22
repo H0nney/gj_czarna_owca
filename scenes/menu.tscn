@@ -1,0 +1,158 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgjhvgc6v1ur8"]
+
+[ext_resource type="Script" path="res://assets/scripts/menu.gd" id="1_d2pvr"]
+[ext_resource type="Theme" uid="uid://b2c6rdemdtmx3" path="res://main.tres" id="2_sg58m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4rsu"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Menu" type="CanvasLayer"]
+script = ExtResource("1_d2pvr")
+
+[node name="MenuContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_sg58m")
+
+[node name="Main" type="VBoxContainer" parent="MenuContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="GameTitle" type="Label" parent="MenuContainer/Main"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Blighted Sheep"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="MenuContainer/Main"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StartButton" type="Button" parent="MenuContainer/Main/Buttons"]
+custom_minimum_size = Vector2(320, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Begin Cleansing"
+
+[node name="OptionsButton" type="Button" parent="MenuContainer/Main/Buttons"]
+custom_minimum_size = Vector2(320, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Options"
+
+[node name="ExitButton" type="Button" parent="MenuContainer/Main/Buttons"]
+custom_minimum_size = Vector2(320, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit"
+
+[node name="Credits" type="VBoxContainer" parent="MenuContainer/Main"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Label" type="Label" parent="MenuContainer/Main/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.313726)
+theme_override_font_sizes/font_size = 8
+text = "Programming & Design by HnyDEV"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MenuContainer/Main/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.313726)
+theme_override_font_sizes/font_size = 8
+text = "Sprites by Domeen0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="MenuContainer/Main/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.313726)
+theme_override_font_sizes/font_size = 8
+text = "Art by Annarchy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Options" type="PanelContainer" parent="MenuContainer"]
+visible = false
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuContainer/Options"]
+layout_mode = 2
+
+[node name="OptionsMain" type="VBoxContainer" parent="MenuContainer/Options/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="MenuContainer/Options/MarginContainer/OptionsMain"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "OPTIONS"
+
+[node name="SoundOptions" type="VBoxContainer" parent="MenuContainer/Options/MarginContainer/OptionsMain"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MenuContainer/Options/MarginContainer/OptionsMain/SoundOptions"]
+layout_mode = 2
+text = "Sound options"
+
+[node name="Toggles" type="VBoxContainer" parent="MenuContainer/Options/MarginContainer/OptionsMain"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MenuContainer/Options/MarginContainer/OptionsMain/Toggles"]
+layout_mode = 2
+text = "Toggles"
+
+[node name="CheckBox" type="CheckBox" parent="MenuContainer/Options/MarginContainer/OptionsMain/Toggles"]
+layout_mode = 2
+button_pressed = true
+text = "Enable CRT Shader"
+
+[node name="Label2" type="Label" parent="MenuContainer/Options/MarginContainer/OptionsMain/Toggles"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Just leave it on tho :>"
+
+[node name="Back" type="Button" parent="MenuContainer/Options/MarginContainer/OptionsMain" groups=["backToTitle"]]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_h4rsu")
+text = "Back to title"
+
+[connection signal="pressed" from="MenuContainer/Main/Buttons/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MenuContainer/Main/Buttons/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="MenuContainer/Main/Buttons/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="toggled" from="MenuContainer/Options/MarginContainer/OptionsMain/Toggles/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="pressed" from="MenuContainer/Options/MarginContainer/OptionsMain/Back" to="." method="_on_back_pressed"]

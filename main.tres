@@ -1,0 +1,48 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://b2c6rdemdtmx3"]
+
+[ext_resource type="FontFile" uid="uid://dmkj3a3m4b1ai" path="res://PressStart2P-Regular.ttf" id="1_8ye0j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ncwq8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f57kx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ommq"]
+bg_color = Color(0.109804, 0.109804, 0.109804, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f06hu"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fi2d1"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2w8o"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[resource]
+default_font = ExtResource("1_8ye0j")
+Button/styles/disabled = SubResource("StyleBoxEmpty_ncwq8")
+Button/styles/focus = SubResource("StyleBoxEmpty_f57kx")
+Button/styles/hover = SubResource("StyleBoxFlat_7ommq")
+Button/styles/normal = SubResource("StyleBoxFlat_f06hu")
+Button/styles/pressed = SubResource("StyleBoxFlat_fi2d1")
+MarginContainer/constants/margin_bottom = 24
+MarginContainer/constants/margin_left = 24
+MarginContainer/constants/margin_right = 24
+MarginContainer/constants/margin_top = 24
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_j2w8o")

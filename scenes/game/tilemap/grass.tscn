@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://yog5q3jwjs3p"]
+
+[ext_resource type="Texture2D" uid="uid://bv30upc1c856r" path="res://assets/gfx/nature/Long_Grass.png" id="1_lserv"]
+
+[node name="Grass" type="Sprite2D"]
+position = Vector2(0, -9)
+texture = ExtResource("1_lserv")

@@ -1,0 +1,190 @@
+[gd_scene load_steps=5 format=3 uid="uid://hnw34x3u8c16"]
+
+[ext_resource type="Script" path="res://assets/scripts/game.gd" id="1_48bku"]
+[ext_resource type="Theme" uid="uid://b2c6rdemdtmx3" path="res://main.tres" id="2_j80fj"]
+[ext_resource type="Script" path="res://assets/scripts/camera.gd" id="2_sqd14"]
+[ext_resource type="Texture2D" uid="uid://5x2f5d4q3nsr" path="res://assets/gfx/ui/binoculars.png" id="3_n5t8f"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_48bku")
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("binocularsUi")]
+zoom = Vector2(2, 2)
+script = ExtResource("2_sqd14")
+binocularsUi = NodePath("../BinocularsUi")
+
+[node name="DayUi" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="DayUi"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="TextVBox" type="VBoxContainer" parent="DayUi"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_j80fj")
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="DayLabel" type="Label" parent="DayUi/TextVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "DAY 1"
+horizontal_alignment = 1
+
+[node name="InfestationLabel" type="Label" parent="DayUi/TextVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Infestation unknown"
+horizontal_alignment = 1
+
+[node name="HuntUi" type="CanvasLayer" parent="."]
+
+[node name="HuntUiContainer" type="Control" parent="HuntUi"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_j80fj")
+
+[node name="Time" type="MarginContainer" parent="HuntUi/HuntUiContainer"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HuntUi/HuntUiContainer/Time" groups=["fadeIn"]]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Time/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Time/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Time/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "TIME:"
+
+[node name="TimeLabel" type="Label" parent="HuntUi/HuntUiContainer/Time/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "3:00"
+
+[node name="Day" type="MarginContainer" parent="HuntUi/HuntUiContainer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_bottom = 112.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Day"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer" groups=["fadeIn"]]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Day"
+
+[node name="DayLabel" type="Label" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="PanelContainer2" type="PanelContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer" groups=["fadeIn"]]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "ALIVE:"
+
+[node name="AliveLabel" type="Label" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="Tutorial" type="MarginContainer" parent="HuntUi/HuntUiContainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -112.0
+offset_right = 180.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Tutorial"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer" groups=["fadeIn"]]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "LMB:"
+
+[node name="Label2" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "SHOOT/INTERACT"
+
+[node name="PanelContainer2" type="PanelContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer" groups=["fadeIn"]]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "RMB:"
+
+[node name="Label2" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "BINOCULARS"
+
+[node name="BinocularsUi" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Binoculars" type="TextureRect" parent="BinocularsUi"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_n5t8f")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
