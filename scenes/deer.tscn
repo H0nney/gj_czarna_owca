@@ -252,7 +252,7 @@ script = ExtResource("10_ndokc")
 actor = NodePath("../..")
 
 [node name="BehaviorTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 5.0
 autostart = true
 
 [node name="BloodParticles" type="CPUParticles2D" parent="."]

@@ -1,17 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://6bl6e06ymhhh"]
+[gd_scene load_steps=5 format=3 uid="uid://6bl6e06ymhhh"]
 
 [ext_resource type="Theme" uid="uid://b2c6rdemdtmx3" path="res://main.tres" id="1_t3pc7"]
+[ext_resource type="Texture2D" uid="uid://nn72njgmqmui" path="res://assets/gfx/ui/bgs/win.png" id="1_tsslg"]
+
+[sub_resource type="Gradient" id="Gradient_lcdxe"]
+colors = PackedColorArray(0.0609785, 0.0349844, 0.0419789, 1, 0.186782, 0.129473, 0.146339, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4joe8"]
+gradient = SubResource("Gradient_lcdxe")
+width = 1600
+height = 900
+fill_from = Vector2(0, 1)
+fill_to = Vector2(1, 0.163099)
 
 [node name="Intermission" type="CanvasLayer"]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="TextureRect2" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
+texture = SubResource("GradientTexture2D_4joe8")
+expand_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.0941176)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 965.701
+grow_horizontal = 2
+texture = ExtResource("1_tsslg")
+expand_mode = 5
 
 [node name="TextVBox" type="VBoxContainer" parent="."]
 anchors_preset = 15
@@ -25,6 +45,8 @@ alignment = 1
 
 [node name="Title" type="Label" parent="TextVBox"]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.227451, 0.160784, 0.180392, 1)
+theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 24
 text = "GOOD DAY HUNTER"
 horizontal_alignment = 1
@@ -32,12 +54,16 @@ vertical_alignment = 1
 
 [node name="Text" type="Label" parent="TextVBox"]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.227451, 0.160784, 0.180392, 1)
+theme_override_constants/outline_size = 16
 text = "test"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Cta" type="Label" parent="TextVBox"]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.227451, 0.160784, 0.180392, 1)
+theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 16
 text = "[PRESS LMB]
 Begin"

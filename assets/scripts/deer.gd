@@ -79,8 +79,9 @@ func _setInfection(x):
 
 func _on_behavior_timer_timeout():
 	if global.currentGame.state != global.currentGame.GAMESTATE.DEFENSE:
-		if rng.randf() <= 0.3:
-			stateMachine._setState([state_wander, state_eat].pick_random())
+		if stateMachine.state != state_dead:
+			if rng.randf() <= 0.5:
+				stateMachine._setState([state_wander, state_eat].pick_random())
 
 func die(damageTarget):
 	var angle = damageTarget.direction_to(self.global_position)
@@ -91,7 +92,7 @@ func die(damageTarget):
 
 func _ready():
 	rng.randomize()
-	if rng.randf() <= 0.2:
+	if rng.randf() <= 0.25:
 		infection = true
 		
 	state_pushback.state_finished.connect(func(): stateMachine._setState(state_attack))
@@ -128,3 +129,7 @@ func _on_hit_box_area_entered(area):
 		areaOwner.takeDamage(1)
 		stateMachine._setState(state_pushback)
 		
+func _physics_process(delta):
+	if velocity.x != 0:
+		main_sprite.flip_h = velocity.x < 0
+		head_sprite.flip_h = velocity.x < 0

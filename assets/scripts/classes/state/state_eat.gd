@@ -18,7 +18,7 @@ func _exit_state() -> void:
 	pass
 
 func _enter_state() -> void:
-	randomDuration = randf_range(1.5, 5)
+	randomDuration = randf_range(1.5, 4)
 	animator.play("eat_start")
 	headSprite.play("eat_start")
 	

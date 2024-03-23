@@ -15,13 +15,13 @@ var localeMap = {
 			You and all the other hunters have about 3 minutes of breathing the air\n
 			That's why we work in turns. Enough talking, there's cleansing to be done.
 		",
-		"cta": "[PRESS LMB]\nBEGIN",
+		"cta": "[PRESS LMB]\nBEGIN\n\n\n",
 	},
 	99: {
 		"title": "Good day Hunter",
 		"text": "
 			Another day of work.\n
 		",
-		"cta": "[PRESS LMB]\nBEGIN",
+		"cta": "[PRESS LMB]\nBEGIN\n\n\n",
 	}
 }

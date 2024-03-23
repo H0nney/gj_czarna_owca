@@ -9,7 +9,7 @@ func _exit_state() -> void:
 	pass
 
 func _enter_state() -> void:
-	randomDuration = randf_range(1.5, 5)
+	randomDuration = randf_range(1.5, 4)
 	randomDirection = Vector2(randf_range(-1, 1), randf_range(-1, 1))
 	actor.velocity = randomDirection.normalized() * actor.speed
 	

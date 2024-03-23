@@ -2,9 +2,10 @@ extends AudioStreamPlayer
 const BGM = preload("res://assets/music/bgm.mp3")
 
 func _ready():
-	stream = BGM
-	bus = "Music"
-	play()
+	self.stream = BGM
+	self.bus = "Music"
+	self.finished.connect(func(): self.play())
+	self.play()
 
 func spawnSoundEffect(busString:String, effect:Resource, pos:Vector2, randomPitch:bool, boost:float = 0.0, globalSound = false) -> void:
 	var newSoundEffect

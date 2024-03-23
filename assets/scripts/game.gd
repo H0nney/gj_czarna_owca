@@ -98,6 +98,7 @@ func _setGameState(newState):
 			global.runTransition(false)
 			
 		GAMESTATE.HUNT:
+			global.lockTimeSkip = true
 			if currentIntermission:
 				currentIntermission.queue_free()
 				currentIntermission = null
@@ -117,9 +118,12 @@ func _setGameState(newState):
 			
 		GAMESTATE.DEFENSE:
 			triggerInfections()
+			for deer in get_tree().get_nodes_in_group("infected"):
+				deer.showInfection(true)
 			
 		GAMESTATE.END:
 			if !global.transitionRunning:
+				global.lockTimeSkip = true
 				await global.runTransition(true)
 				if currentPlayField:
 					$HuntUi.hide()
@@ -131,7 +135,9 @@ func _setGameState(newState):
 				global.showMouse()
 				self.add_child(currentLose)
 				
-				global.runTransition(false)
+				await global.runTransition(false)
+				global.lockTimeSkip = false
+				
 			
 		GAMESTATE.ALLDEAD:
 			if !global.transitionRunning:
@@ -161,6 +167,7 @@ func _unhandled_input(event):
 						if $DayUi.visible:
 							$DayUi.hide()
 							lockControls = false
+							global.lockTimeSkip = false
 					
 					GAMESTATE.ALLDEAD:
 						if currentAllDead:
@@ -176,7 +183,8 @@ func _ready():
 	updateScore()
 
 func toggleBinoculars():
-	camera.toggleBinoculars()
+	if state == GAMESTATE.HUNT:
+		camera.toggleBinoculars()
 	
 func _setDeerCount(x):
 	deerCount = x
@@ -218,8 +226,12 @@ func _onDeerDeath(deer):
 		
 	if state == GAMESTATE.DEFENSE:
 		var aliveInfected = getAliveInfected()
+			
 		if !aliveInfected.size():
+			global.lockTimeSkip = true
 			global.root._progressLevel(currentDay+1)
+			
+			
 			
 	
 func updateScore():
