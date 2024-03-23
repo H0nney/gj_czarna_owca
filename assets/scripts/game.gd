@@ -9,10 +9,12 @@ const DEER = preload("res://scenes/deer.tscn")
 const INTERMISSION = preload("res://scenes/game/intermission.tscn")
 const ALLDEAD = preload("res://scenes/game/alldead.tscn")
 const PLAYFIELD = preload("res://scenes/game/playfield.tscn")
+const LOSE = preload("res://scenes/game/lose.tscn")
 
 var currentIntermission:CanvasLayer = null
 var currentPlayField:Node2D = null
 var currentAllDead:CanvasLayer = null
+var currentLose:CanvasLayer = null
 
 var currentDay:int = 1
 var infestation:float = 0.2
@@ -63,7 +65,7 @@ func spawnDeer(amount) -> void:
 		await get_tree().create_timer(0.1).timeout
 		var newDeer = DEER.instantiate()
 		newDeer.position = test_area.position
-		newDeer.died.connect(func(): deerCount -= 1)
+		newDeer.died.connect(_onDeerDeath.bind(newDeer))
 		currentPlayField.add_child(newDeer)
 		soundController.spawnSoundEffect("SFX", appearSFX, newDeer.global_position, true, 8)
 		newDeer.appear()
@@ -111,12 +113,25 @@ func _setGameState(newState):
 				$DayUi.show()
 				
 				await global.runTransition(false)
+				global.lockTimeSkip = false
 			
 		GAMESTATE.DEFENSE:
 			triggerInfections()
 			
 		GAMESTATE.END:
-			print('END')
+			if !global.transitionRunning:
+				await global.runTransition(true)
+				if currentPlayField:
+					$HuntUi.hide()
+					currentPlayField.queue_free()
+					currentPlayField = null
+					
+				currentLose = LOSE.instantiate()
+				currentLose._setScore(global.score)
+				global.showMouse()
+				self.add_child(currentLose)
+				
+				global.runTransition(false)
 			
 		GAMESTATE.ALLDEAD:
 			if !global.transitionRunning:
@@ -150,10 +165,15 @@ func _unhandled_input(event):
 					GAMESTATE.ALLDEAD:
 						if currentAllDead:
 							global.root._progressLevel(currentDay+1)
+					
+					GAMESTATE.END:
+						await global.runTransition(true)
+						global.root._initMenu()
 
 func _ready():
 	global.currentGame = self
 	state = GAMESTATE.INTERMISSION
+	updateScore()
 
 func toggleBinoculars():
 	camera.toggleBinoculars()
@@ -169,14 +189,18 @@ func skipTime():
 	global.root.distortion(true)
 	start_time -= 180000
 	
-func triggerInfections():
-	await get_tree().create_timer(2).timeout
+func getAliveInfected() -> Array:
 	var infected = get_tree().get_nodes_in_group("infected")
 	var aliveInfected = []
 	for i in infected:
 		if i.alive:
 			aliveInfected.append(i)
 			
+	return aliveInfected
+	
+func triggerInfections():
+	await get_tree().create_timer(2).timeout
+	var aliveInfected = getAliveInfected()
 	if aliveInfected.size():
 		for deer in aliveInfected:
 			deer.triggerInfection(true)
@@ -184,3 +208,24 @@ func triggerInfections():
 		global.root._progressLevel(currentDay+1)
 
 	global.root.distortion(false)
+
+func _onDeerDeath(deer):
+	deerCount -= 1
+	if deer.infection:
+		global.score += 10
+	else:
+		global.score -= 10
+		
+	if state == GAMESTATE.DEFENSE:
+		var aliveInfected = getAliveInfected()
+		if !aliveInfected.size():
+			global.root._progressLevel(currentDay+1)
+			
+	
+func updateScore():
+	$HuntUi/HuntUiContainer/Score/ScoreLabel.applyShake()
+	$HuntUi/HuntUiContainer/Score/ScoreLabel.text = str(global.score)
+
+func playerLost():
+	await global.runTransition(true)
+	state = GAMESTATE.END

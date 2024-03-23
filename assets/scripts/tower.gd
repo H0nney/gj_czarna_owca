@@ -46,9 +46,10 @@ func shoot():
 		var points = get_points_between(barrel.global_position, shootTarget, pointCount)
 		shootParticles.emission_points = points
 		shootParticles.emitting = true
+		global.currentGame.camera.applyShake()
 		
 		weaponSprite.play('reload')
-		soundController.spawnSoundEffect("SFX", shootSFX, self.global_position, true)
+		soundController.spawnSoundEffect("SFX", shootSFX, self.global_position, true, 8)
 	
 func get_points_between(start_point, end_point, num_points):
 	var points = []
@@ -68,7 +69,7 @@ func _on_gun_sprite_animation_finished():
 		
 var skippingTime:bool = false
 func _physics_process(delta):
-	if $TimeSkipUi.visible && !skippingTime:
+	if $TimeSkipUi.visible && !skippingTime && !global.lockTimeSkip:
 		if $TimeSkipUi/TimeSkipBar.value >= 100:
 			global.currentGame.skipTime()
 			$TimeSkipUi.hide()
@@ -83,12 +84,11 @@ func _physics_process(delta):
 			
 
 func _on_time_skip_area_area_entered(area):
-	if !skippingTime:
+	if !skippingTime && !global.lockTimeSkip:
 		$TimeSkipUi.show()
 
 func _on_time_skip_area_area_exited(area):
-	#ugly
-	if !skippingTime:
+	if !skippingTime && !global.lockTimeSkip:
 		$TimeSkipUi.hide()
 		$TimeSkipUi/TimeSkipBar.value = 0
 

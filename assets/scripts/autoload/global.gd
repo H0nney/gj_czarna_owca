@@ -3,12 +3,25 @@ extends Node
 #Player node
 var tower:StaticBody2D = null
 var health:int = 10 : set = _setHealth
+var lockTimeSkip:bool = true
+var score:int = 0 : set = _setScore
 
 func _setHealth(x):
 	health = x
 	if is_instance_valid(tower):
 		tower.updateHealth()
 		tower.showHealthBar()
+		
+		if !transitionRunning:
+			if health <= 0:
+				currentGame.playerLost()
+			
+		
+func _setScore(x):
+	score = x
+	if is_instance_valid(currentGame):
+		currentGame.updateScore()
+		
 
 #UTILITY
 var root:Node2D = null

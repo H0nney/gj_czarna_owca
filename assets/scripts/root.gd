@@ -37,6 +37,7 @@ func _startGame():
 		started = true
 		await global.runTransition(true)
 		global.health = 10
+		global.score = 0
 		menu.queue_free()
 		var newGame = global.GAME.instantiate()
 		global.currentGame = newGame
@@ -44,6 +45,7 @@ func _startGame():
 		
 func _progressLevel(day):
 	await global.runTransition(true)
+	
 	global.currentGame.queue_free()
 	global.currentGame = null
 	

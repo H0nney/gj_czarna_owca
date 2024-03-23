@@ -32,8 +32,9 @@ vertical_alignment = 1
 
 [node name="Text" type="Label" parent="TextVBox"]
 layout_mode = 2
-text = "Well, go figure. You screwed your job up.
-Be better on the next day."
+text = "Well... All the deer have died.
+I don't think i have to tell you you did a bad job
+But lets say, we're a bit understaffed so still show up tomorrow."
 horizontal_alignment = 1
 vertical_alignment = 1
 

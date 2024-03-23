@@ -78,8 +78,9 @@ func _setInfection(x):
 		showInfection(false)
 
 func _on_behavior_timer_timeout():
-	if rng.randf() <= 0.3 && !stateMachine.state == state_dead:
-		stateMachine._setState([state_wander, state_eat].pick_random())
+	if global.currentGame.state != global.currentGame.GAMESTATE.DEFENSE:
+		if rng.randf() <= 0.3:
+			stateMachine._setState([state_wander, state_eat].pick_random())
 
 func die(damageTarget):
 	var angle = damageTarget.direction_to(self.global_position)
@@ -117,6 +118,7 @@ func triggerInfection(spread):
 				if rng.randf() <= 0.4:
 					hitBox.get_owner().triggerInfection(false)
 	
+	$HitBox.set_deferred("monitoring", true)
 	$BehaviorTimer.stop()
 	stateMachine._setState(state_attack)
 

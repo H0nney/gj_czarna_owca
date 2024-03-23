@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://hnw34x3u8c16"]
+[gd_scene load_steps=8 format=3 uid="uid://hnw34x3u8c16"]
 
 [ext_resource type="Script" path="res://assets/scripts/game.gd" id="1_48bku"]
 [ext_resource type="Theme" uid="uid://b2c6rdemdtmx3" path="res://main.tres" id="2_j80fj"]
 [ext_resource type="Script" path="res://assets/scripts/camera.gd" id="2_sqd14"]
 [ext_resource type="Texture2D" uid="uid://5x2f5d4q3nsr" path="res://assets/gfx/ui/binoculars.png" id="3_n5t8f"]
+[ext_resource type="Texture2D" uid="uid://2i434q3b5kil" path="res://assets/gfx/left-click.png" id="4_nc6me"]
+[ext_resource type="Texture2D" uid="uid://dtb7sh27k6ufu" path="res://assets/gfx/right-click.png" id="5_ykikg"]
+[ext_resource type="Script" path="res://assets/scripts/ScoreLabel.gd" id="6_kfqy2"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_48bku")
@@ -94,6 +97,7 @@ grow_horizontal = 0
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer" groups=["fadeIn"]]
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer"]
@@ -105,7 +109,7 @@ theme_override_constants/separation = 24
 
 [node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "Day"
+text = "DAY:"
 
 [node name="DayLabel" type="Label" parent="HuntUi/HuntUiContainer/Day/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -150,38 +154,75 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="TextureRect" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-text = "LMB:"
+texture = ExtResource("4_nc6me")
+expand_mode = 3
 
 [node name="Label2" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "SHOOT/INTERACT"
+text = "SHOOT"
 
-[node name="PanelContainer2" type="PanelContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer" groups=["fadeIn"]]
+[node name="PanelContainer3" type="PanelContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer" groups=["fadeIn"]]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer3"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer3/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="Label" type="TextureRect" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer3/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-text = "RMB:"
+texture = ExtResource("5_ykikg")
+expand_mode = 3
 
-[node name="Label2" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="HuntUi/HuntUiContainer/Tutorial/HBoxContainer/PanelContainer3/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "BINOCULARS"
+text = "ZOOM"
+
+[node name="Score" type="MarginContainer" parent="HuntUi/HuntUiContainer"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -49.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ScoreLabel" type="Label" parent="HuntUi/HuntUiContainer/Score"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 4
+theme_override_font_sizes/font_size = 64
+text = "0"
+script = ExtResource("6_kfqy2")
 
 [node name="BinocularsUi" type="CanvasLayer" parent="."]
 visible = false
 
 [node name="Binoculars" type="TextureRect" parent="BinocularsUi"]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1366.0
+offset_top = -768.0
+offset_right = 1366.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_n5t8f")
 
 [node name="Timer" type="Timer" parent="."]

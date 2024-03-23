@@ -5,6 +5,23 @@ extends Camera2D
 var distance_max = 400
 var modifier = 1.7
 
+var randomStrength:float = 55.0
+var shakeFade:float = 10.0
+var rng = RandomNumberGenerator.new()
+var shakeStrength:float = 0.0
+
+func applyShake():
+	shakeStrength = randomStrength
+	
+func randomOffset() -> Vector2:
+	return Vector2(rng.randf_range(-shakeStrength, shakeStrength), rng.randf_range(-shakeStrength, shakeStrength))
+	
+func _process(delta):
+	if shakeStrength >= 4:
+		shakeStrength = lerpf(shakeStrength, 0, shakeFade * delta)
+		offset =  offset + randomOffset()
+			
+
 func _ready():
 	get_tree().get_root().size_changed.connect(_resize)
 	_resize()
@@ -39,6 +56,7 @@ func toggleBinoculars():
 			self.zoom = Vector2(3.5, 3.5)
 			for deer in get_tree().get_nodes_in_group("infected"):
 				deer.showInfection(true)
+			global.lockTimeSkip = true
 		else:
 			self.position = global.tower.position
 			global.hideMouse()
@@ -46,6 +64,7 @@ func toggleBinoculars():
 			
 			for deer in get_tree().get_nodes_in_group("infected"):
 				deer.showInfection(false)
+			global.lockTimeSkip = false
 			binocularsUi.visible = !binocularsUi.visible
 
 		await global.runTransition(false, 0.35)
