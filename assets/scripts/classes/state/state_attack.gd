@@ -13,5 +13,6 @@ func _enter_state() -> void:
 	pass
 	
 func _physics_update(_delta) -> void:
-	actor.velocity = actor.global_position.direction_to(navigationAgent.get_next_path_position()) * actor.speed
+	actor.velocity = actor.global_position.direction_to(navigationAgent.get_next_path_position()) * actor.speed * 2
 	actor.move_and_slide()
+	
