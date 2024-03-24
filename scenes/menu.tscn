@@ -78,7 +78,7 @@ alignment = 1
 [node name="Label" type="Label" parent="MenuContainer/Main/Credits"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.313726)
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 16
 text = "Programming & Design by HnyDEV"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -86,7 +86,7 @@ vertical_alignment = 1
 [node name="Label2" type="Label" parent="MenuContainer/Main/Credits"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.313726)
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 16
 text = "Sprites by Domeen0 "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -94,7 +94,7 @@ vertical_alignment = 1
 [node name="Label3" type="Label" parent="MenuContainer/Main/Credits"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.313726)
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 16
 text = "Art by Annarchy"
 horizontal_alignment = 1
 vertical_alignment = 1

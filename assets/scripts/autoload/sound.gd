@@ -1,5 +1,7 @@
 extends AudioStreamPlayer
 const BGM = preload("res://assets/music/bgm.mp3")
+const BOSS = preload("res://assets/music/boss.mp3")
+const INTERMISSION = preload("res://assets/music/intermission.mp3")
 
 func _ready():
 	self.stream = BGM

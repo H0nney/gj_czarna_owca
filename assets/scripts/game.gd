@@ -62,7 +62,6 @@ func spawnDeer(amount) -> void:
 			test_area.set_deferred("position", spawnArea * rollDirection())
 			await get_tree().physics_frame
 			
-		await get_tree().create_timer(0.1).timeout
 		var newDeer = DEER.instantiate()
 		newDeer.position = test_area.position
 		newDeer.died.connect(_onDeerDeath.bind(newDeer))
@@ -80,6 +79,8 @@ func _setGameState(newState):
 	state = newState
 	match state:
 		GAMESTATE.INTERMISSION:
+			soundController.stream = soundController.INTERMISSION
+			soundController.play()
 			currentIntermission = INTERMISSION.instantiate()
 			var textVbox = currentIntermission.get_node_or_null("TextVBox")
 			if textVbox:
@@ -105,7 +106,7 @@ func _setGameState(newState):
 			
 				currentPlayField = PLAYFIELD.instantiate()
 				self.add_child(currentPlayField)
-				spawnDeer(pow(currentDay, 2))
+				spawnDeer(pow(currentDay+1, 2))
 				global.hideMouse()
 				global.crosshair.show()
 				set_start_time()
@@ -117,6 +118,8 @@ func _setGameState(newState):
 				global.lockTimeSkip = false
 			
 		GAMESTATE.DEFENSE:
+			soundController.stream = soundController.BOSS
+			soundController.play()
 			triggerInfections()
 			for deer in get_tree().get_nodes_in_group("infected"):
 				deer.showInfection(true)
@@ -230,9 +233,6 @@ func _onDeerDeath(deer):
 		if !aliveInfected.size():
 			global.lockTimeSkip = true
 			global.root._progressLevel(currentDay+1)
-			
-			
-			
 	
 func updateScore():
 	$HuntUi/HuntUiContainer/Score/ScoreLabel.applyShake()

@@ -18,4 +18,6 @@ func _setState(new_state:State):
 	state._enter_state()
 
 func _physics_process(delta):
+	#if state:
+		#$"../Debug".text = str(state.name)
 	state._physics_update(delta)

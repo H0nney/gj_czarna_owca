@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://d2grct465h5vg"]
+[gd_scene load_steps=36 format=3 uid="uid://d2grct465h5vg"]
 
 [ext_resource type="Script" path="res://assets/scripts/deer.gd" id="1_dmsfe"]
 [ext_resource type="Texture2D" uid="uid://dh6rc3oufqr7a" path="res://assets/gfx/eating_grass.png" id="2_fw4s6"]
@@ -11,63 +11,6 @@
 [ext_resource type="Script" path="res://assets/scripts/classes/state/state_attack.gd" id="9_ca8ft"]
 [ext_resource type="Texture2D" uid="uid://bxroiqp145tr0" path="res://assets/gfx/bodies.png" id="9_fopbx"]
 [ext_resource type="Script" path="res://assets/scripts/classes/state/state_pushback.gd" id="10_ndokc"]
-
-[sub_resource type="Animation" id="Animation_tvg7p"]
-resource_name = "walking"
-loop_mode = 1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 1)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -2, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 1)
-}
-
-[sub_resource type="Animation" id="Animation_s5bs6"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_stgkr"]
-_data = {
-"RESET": SubResource("Animation_s5bs6"),
-"walking": SubResource("Animation_tvg7p")
-}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kq0bc"]
 size = Vector2(18, 6)
@@ -233,19 +176,46 @@ _data = {
 "appear": SubResource("Animation_fg7is")
 }
 
+[sub_resource type="Animation" id="Animation_tvg7p"]
+resource_name = "walking"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-7, -0.25, 0, 0.25, 0, -12, -0.25, 0, 0.25, 0, -7, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.6)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_stgkr"]
+_data = {
+"walking": SubResource("Animation_tvg7p")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_xs716"]
 radius = 48.0
 
 [node name="Deer" type="CharacterBody2D"]
-position = Vector2(0, -1)
+position = Vector2(0, -1.65577)
 motion_mode = 1
 platform_floor_layers = 4294901760
 script = ExtResource("1_dmsfe")
-
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_stgkr")
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -253,17 +223,20 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_kq0bc")
 
 [node name="MainSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_nvc8e")
 animation = &"eat_start"
 autoplay = "idle"
 
 [node name="HeadSprite" type="AnimatedSprite2D" parent="MainSprite"]
+position = Vector2(-96, -40.3442)
 sprite_frames = ExtResource("4_54a1f")
 animation = &"idle"
 autoplay = "idle"
+offset = Vector2(96, 40.3442)
 
 [node name="HitBox" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 4
 monitoring = false
@@ -292,9 +265,10 @@ collision = NodePath("../../CollisionShape2D")
 sprite = NodePath("../../MainSprite")
 deadSprite = NodePath("../../DeadSprite")
 
-[node name="State_Wander" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+[node name="State_Wander" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animationPlayer")]
 script = ExtResource("6_wjb60")
 actor = NodePath("../..")
+animationPlayer = NodePath("../../AnimationPlayer2")
 
 [node name="State_Eat" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator", "headSprite")]
 script = ExtResource("8_btra8")
@@ -302,12 +276,13 @@ actor = NodePath("../..")
 animator = NodePath("../../MainSprite")
 headSprite = NodePath("../../MainSprite/HeadSprite")
 
-[node name="State_Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator", "headSprite", "navigationAgent")]
+[node name="State_Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator", "headSprite", "navigationAgent", "animationPlayer")]
 script = ExtResource("9_ca8ft")
 actor = NodePath("../..")
 animator = NodePath("../../MainSprite")
 headSprite = NodePath("../../MainSprite/HeadSprite")
 navigationAgent = NodePath("../../NavigationAgent")
+animationPlayer = NodePath("../../AnimationPlayer2")
 
 [node name="State_Pushback" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("10_ndokc")
@@ -344,7 +319,13 @@ libraries = {
 "": SubResource("AnimationLibrary_v6wje")
 }
 
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_stgkr")
+}
+
 [node name="InfectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -353,6 +334,21 @@ position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_xs716")
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="."]
+
+[node name="Debug" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.5
+offset_top = -58.3442
+offset_right = 23.5
+offset_bottom = -35.3442
+grow_horizontal = 2
+grow_vertical = 2
+text = "STATE"
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="timeout" from="BehaviorTimer" to="." method="_on_behavior_timer_timeout"]

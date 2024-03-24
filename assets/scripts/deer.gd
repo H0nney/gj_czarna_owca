@@ -87,6 +87,8 @@ func die(damageTarget):
 	var angle = damageTarget.direction_to(self.global_position)
 	blood_particles.direction = angle
 	blood_particles.emitting = true
+	$BehaviorTimer.stop()
+	$BehaviorTimer.wait_time = 999
 	stateMachine._setState(state_dead)
 	#spawn decals with a delay
 
@@ -129,7 +131,11 @@ func _on_hit_box_area_entered(area):
 		areaOwner.takeDamage(1)
 		stateMachine._setState(state_pushback)
 		
+func flipAllSprites(param):
+	main_sprite.flip_h = param
+	for child in main_sprite.get_children():
+		child.flip_h = param
+	
 func _physics_process(delta):
 	if velocity.x != 0:
-		main_sprite.flip_h = velocity.x < 0
-		head_sprite.flip_h = velocity.x < 0
+		flipAllSprites(velocity.x < 0)
